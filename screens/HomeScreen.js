@@ -12,6 +12,12 @@ import { CategorySummaryTile } from '../components/CategorySummaryTile';
 import { PeriodSummary } from '../components/PeriodSummary';
 
 export default class HomeScreen extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { period: 'month' }
+  }
+
   static navigationOptions = {
     header: null,
   };
@@ -31,14 +37,16 @@ export default class HomeScreen extends React.Component {
           <PeriodSummary></PeriodSummary>
 
 
-          <CategorySummaryTile></CategorySummaryTile>
-          <CategorySummaryTile></CategorySummaryTile>
-          <CategorySummaryTile></CategorySummaryTile>
-          <CategorySummaryTile></CategorySummaryTile>
-          <CategorySummaryTile></CategorySummaryTile>
-          <CategorySummaryTile></CategorySummaryTile>
+          <CategorySummaryTile category="Groceries" spent={59.70} budgeted={100}></CategorySummaryTile>
+          <CategorySummaryTile category="Entertainment"></CategorySummaryTile>
+          <CategorySummaryTile category="Rent"></CategorySummaryTile>
+          <CategorySummaryTile category="Fuel"></CategorySummaryTile>
+          <CategorySummaryTile category="Internet"></CategorySummaryTile>
+          <CategorySummaryTile category="Electricity"></CategorySummaryTile>
+
 
         </ScrollView>
+
       </View>
     );
   }
@@ -57,6 +65,11 @@ export default class HomeScreen extends React.Component {
 
 
 const styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

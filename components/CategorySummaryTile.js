@@ -10,9 +10,9 @@ export class CategorySummaryTile extends React.Component {
     render() {
         return <View>
             <View style={styles.tile} >
-                <Text style={styles.categoryName}>Groceries</Text>
+                <Text style={styles.category}>{this.props.category}</Text>
                 <Text style={styles.amounts}>
-                    Budgeted | Spent
+                {this.props.spent ? '$' + this.props.spent : ''} / ${this.props.budgeted} 
             </Text>
 
             </View>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         borderColor: '#c9d2e0',
         borderWidth: 1
     },
-    categoryName: {
+    category: {
         fontSize: 20,
         flex: 5
     },
