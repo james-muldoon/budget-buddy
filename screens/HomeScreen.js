@@ -7,15 +7,19 @@ import {
   StatusBar
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { ToolbarAndroid } from 'react-native-gesture-handler';
 import { CategorySummaryTile } from '../components/CategorySummaryTile';
 import { PeriodSummary } from '../components/PeriodSummary';
+import { getCategories } from '../constants/api';
 
 export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { period: 'month' }
+    this.state = { 
+      period: 'January',
+      spent: 50,
+      budgeted: 350, 
+      categories: getCategories() }
   }
 
   static navigationOptions = {
@@ -27,25 +31,13 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-          {/* <ToolbarAndroid
-            title="Budget Buddy"
-            actions={[{ title: 'Settings', icon: require('../assets/images/robot-prod.png'), show: 'always' }]} // replace with hamburger menu icon 
-            style={styles.toolbar}
-          >
-          </ToolbarAndroid> */}
+          <PeriodSummary name={this.state.period} spent={this.state.spent} budgeted={this.state.budgeted}></PeriodSummary>
 
-          <PeriodSummary></PeriodSummary>
+          {this.state.categories.map(function(item, i) {
+            return <CategorySummaryTile key={i} category={item.name} spent={item.spent} budgeted={item.budgeted}></CategorySummaryTile>
+          })}
 
-
-          <CategorySummaryTile category="Groceries" spent={59.70} budgeted={100}></CategorySummaryTile>
-          <CategorySummaryTile category="Entertainment"></CategorySummaryTile>
-          <CategorySummaryTile category="Rent"></CategorySummaryTile>
-          <CategorySummaryTile category="Fuel"></CategorySummaryTile>
-          <CategorySummaryTile category="Internet"></CategorySummaryTile>
-          <CategorySummaryTile category="Electricity"></CategorySummaryTile>
-
-
-        </ScrollView>
+        </ScrollView> 
 
       </View>
     );
