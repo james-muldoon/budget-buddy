@@ -41,7 +41,7 @@ export default class HomeScreen extends React.Component {
               category={item.name} 
               spent={item.spent} 
               budgeted={item.budgeted}
-              onPress={() => navigate('NewExpense', { name: item.name })}>
+              onPress={() => navigate('NewExpense', { categoryId: item.id })}>
               </CategorySummaryTile>
           })}
 

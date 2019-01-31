@@ -9,21 +9,23 @@ import {
 import { getCategories } from '../constants/api';
 
 export default class NewExpenseScreen extends React.Component {
+    categories = getCategories();
 
     constructor(props) {
         super(props);
 
-        const {navigation} = this.props;
-        const ename = navigation.getParam('name', null);
+        const { navigation } = this.props;
+        const catId = navigation.getParam('categoryId', null);
 
         this.state = {
-            expenseName: ename,
-            categories: getCategories(),
-            cost: null
+            expenseName: null,
+            cost: null,
+            selectedCategory: catId
         }
     }
 
     saveExpense = () => {
+        // TODO implement code to save expense
         this.props.navigation.navigate('Home');
     }
 
@@ -39,8 +41,9 @@ export default class NewExpenseScreen extends React.Component {
                     autoCorrect={true}>
                 </TextInput>
 
-                <Picker>
-                    {this.state.categories.map(function (item, i) {
+                <Picker
+                    selectedValue={this.state.selectedCategory} >
+                    {this.categories.map(function (item, i) {
                         return <Picker.Item
                             key={i}
                             label={item.name}
@@ -58,9 +61,10 @@ export default class NewExpenseScreen extends React.Component {
                     keyboardType='number-pad'>
                 </TextInput>
 
-                <Button onPress={this.saveExpense}
-                    title='Save'
-                    ></Button>
+                <Button
+                    onPress={this.saveExpense}
+                    title='Save'>
+                </Button>
             </View>
         );
     }
