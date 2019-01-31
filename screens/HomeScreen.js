@@ -15,11 +15,12 @@ export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       period: 'January',
       spent: 50,
-      budgeted: 350, 
-      categories: getCategories() }
+      budgeted: 350,
+      categories: getCategories()
+    }
   }
 
   static navigationOptions = {
@@ -27,17 +28,25 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
           <PeriodSummary name={this.state.period} spent={this.state.spent} budgeted={this.state.budgeted}></PeriodSummary>
 
-          {this.state.categories.map(function(item, i) {
-            return <CategorySummaryTile key={i} category={item.name} spent={item.spent} budgeted={item.budgeted}></CategorySummaryTile>
+          {this.state.categories.map(function (item, i) {
+            return <CategorySummaryTile
+              key={i} 
+              category={item.name} 
+              spent={item.spent} 
+              budgeted={item.budgeted}
+              onPress={() => navigate('NewExpense', { name: item.name })}>
+              </CategorySummaryTile>
           })}
 
-        </ScrollView> 
+
+        </ScrollView>
 
       </View>
     );
