@@ -61,6 +61,10 @@ export default class NewExpenseScreen extends React.Component {
                     keyboardType='number-pad'>
                 </TextInput>
 
+                {
+                    // TOOD add date selector 
+                }
+
                 <Button
                     onPress={this.saveExpense}
                     title='Save'>

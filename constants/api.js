@@ -5,6 +5,11 @@ const getCategories = () => {
     return Categories;
 }
 
+const getExpensesForCategory = (categoryId) => {
+    return Expenses.filter(function (e) {
+        return e.categoryId === categoryId;
+    })
+}
 
 
 
@@ -14,13 +19,33 @@ const getCategories = () => {
 
 
 module.exports = {
-    getCategories
+    getCategories,
+    getExpensesForCategory
 }
 
 
 
 
-
+Expenses = [
+    {
+        id: 1,
+        categoryId: 1,
+        amount: 22.32,
+        date: new Date(2019, 1, 31)
+    },
+    {
+        id: 2,
+        categoryId: 1,
+        amount: 2.1,
+        date: new Date(2019, 1, 28)
+    },
+    {
+        id: 3,
+        categoryId: 3,
+        amount: 1003.23,
+        date: new Date(2019, 1, 27)
+    }
+]
 
 
 

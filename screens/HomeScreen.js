@@ -38,10 +38,10 @@ export default class HomeScreen extends React.Component {
           {this.state.categories.map(function (item, i) {
             return <CategorySummaryTile
               key={i} 
-              category={item.name} 
+              category={item.name}  
               spent={item.spent} 
               budgeted={item.budgeted}
-              onPress={() => navigate('NewExpense', { categoryId: item.id })}>
+              onPress={() => navigate('CategorySummary', { categoryId: item.id })}>
               </CategorySummaryTile>
           })}
 

@@ -4,6 +4,7 @@ import { createAppContainer, createSwitchNavigator, createStackNavigator } from 
 import MainTabNavigator from './MainTabNavigator';
 import HomeScreen from '../screens/HomeScreen';
 import NewExpenseScreen from '../screens/NewExpenseScreen';
+import CategorySummaryScreen from '../screens/CategorySummaryScreen';
 
 // export default createAppContainer(createSwitchNavigator({
 //   // You could add another route here for authentication.
@@ -15,6 +16,7 @@ export default createAppContainer(createStackNavigator(
   {
     Home: HomeScreen,
     NewExpense: NewExpenseScreen,
+    CategorySummary: CategorySummaryScreen
   },
   {
     initialRouteName: 'Home'
