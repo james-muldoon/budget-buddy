@@ -1,12 +1,12 @@
 import React from 'react';
 import {
     Button,
-    Picker,
     StyleSheet,
-    TextInput,
     View,
 } from 'react-native';
-import { getExpensesForCategory, getCategories } from '../constants/api';
+import { getExpensesForCategory } from '../constants/api';
+import { ExpenseSummaryTile } from '../components/ExpenseSummaryTile';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class CategorySummaryScreen extends React.Component {
 
@@ -15,14 +15,11 @@ export default class CategorySummaryScreen extends React.Component {
 
         const { navigation } = this.props;
         const catId = navigation.getParam('categoryId', null);
-
         const expenses = getExpensesForCategory(catId);
-        const categories = getCategories();
 
         this.state = {
             selectedCategory: catId,
-            expenses: expenses,
-            categories: categories
+            expenses: expenses
         }
     }
 
@@ -30,11 +27,24 @@ export default class CategorySummaryScreen extends React.Component {
         const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
-                <Button 
-                title='New Expense'
-                onPress={() => navigate('NewExpense', { categoryId: this.state.selectedCategory })} >
+                <ScrollView style={styles.container}>
+                    {this.state.expenses.map(function (item, i) {
+                        return <ExpenseSummaryTile
+                            key={i}
+                            name={item.name}
+                            amount={item.amount}
+                            onPress={() => console.log('TODO: make expense detail screen')}>
+                        </ExpenseSummaryTile>
+                    })}
 
-                </Button>
+                    <Button
+                        title='New Expense'
+                        onPress={() => navigate('NewExpense', { categoryId: this.state.selectedCategory })} >
+
+                    </Button>
+                </ScrollView>
+
+
             </View>
         );
     }
