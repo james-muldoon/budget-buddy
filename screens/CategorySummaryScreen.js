@@ -21,6 +21,17 @@ export default class CategorySummaryScreen extends React.Component {
             selectedCategory: catId,
             expenses: expenses
         }
+
+    }
+
+    editExpense(item) {
+        this.props.navigation.navigate('Expense', {
+            id: item.id,
+            name: item.name,
+            cost: item.amount,
+            categoryId: this.state.selectedCategory,
+            date: item.date
+        });
     }
 
     render() {
@@ -30,16 +41,16 @@ export default class CategorySummaryScreen extends React.Component {
                 <ScrollView style={styles.container}>
                     {this.state.expenses.map(function (item, i) {
                         return <ExpenseSummaryTile
-                            key={i}
+                            key={item.id}
                             name={item.name}
                             amount={item.amount}
-                            onPress={() => console.log('TODO: make expense detail screen')}>
+                            onPress={() => this.editExpense(item)}>
                         </ExpenseSummaryTile>
-                    })}
+                    }, this)}
 
                     <Button
                         title='New Expense'
-                        onPress={() => navigate('NewExpense', { categoryId: this.state.selectedCategory })} >
+                        onPress={() => navigate('Expense', { categoryId: this.state.selectedCategory })} >
 
                     </Button>
                 </ScrollView>

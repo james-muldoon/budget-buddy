@@ -6,7 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import NewExpenseScreen from '../screens/NewExpenseScreen';
+import ExpenseScreen from '../screens/ExpenseScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -42,7 +42,7 @@ LinksStack.navigationOptions = {
 
 const SettingsStack = createStackNavigator({
   // Settings: SettingsScreen,
-  Settings: NewExpenseScreen
+  Settings: ExpenseScreen
 });
 
 SettingsStack.navigationOptions = {

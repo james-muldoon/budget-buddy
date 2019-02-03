@@ -8,19 +8,26 @@ import {
 } from 'react-native';
 import { getCategories } from '../constants/api';
 
-export default class NewExpenseScreen extends React.Component {
+export default class ExpenseScreen extends React.Component {
     categories = getCategories();
 
     constructor(props) {
         super(props);
 
         const { navigation } = this.props;
-        const catId = navigation.getParam('categoryId', null);
+
+        const id = navigation.getParam('id', null);
+        const name = navigation.getParam('name', null);
+        const cost = navigation.getParam('cost', null).toString();
+        const categoryId = navigation.getParam('categoryId', null);
+        const date = navigation.getParam('date', null);
 
         this.state = {
-            expenseName: null,
-            cost: null,
-            selectedCategory: catId
+            id: id,
+            name: name,
+            cost: cost,
+            selectedCategory: categoryId,
+            date: date
         }
     }
 
@@ -35,8 +42,8 @@ export default class NewExpenseScreen extends React.Component {
             <View style={styles.container}>
                 <TextInput
                     style={{}}
-                    onChangeText={(text) => this.setState({ expenseName: text })}
-                    value={this.state.expenseName}
+                    onChangeText={(text) => this.setState({ name: text })}
+                    value={this.state.name}
                     placeholder='Enter expense name...'
                     autoCorrect={true}>
                 </TextInput>

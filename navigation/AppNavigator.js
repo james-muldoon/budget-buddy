@@ -3,7 +3,7 @@ import { createAppContainer, createSwitchNavigator, createStackNavigator } from 
 
 import MainTabNavigator from './MainTabNavigator';
 import HomeScreen from '../screens/HomeScreen';
-import NewExpenseScreen from '../screens/NewExpenseScreen';
+import ExpenseScreen from '../screens/ExpenseScreen';
 import CategorySummaryScreen from '../screens/CategorySummaryScreen';
 
 // export default createAppContainer(createSwitchNavigator({
@@ -15,7 +15,7 @@ import CategorySummaryScreen from '../screens/CategorySummaryScreen';
 export default createAppContainer(createStackNavigator(
   {
     Home: HomeScreen,
-    NewExpense: NewExpenseScreen,
+    Expense: ExpenseScreen,
     CategorySummary: CategorySummaryScreen
   },
   {
