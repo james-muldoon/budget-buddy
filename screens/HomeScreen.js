@@ -15,12 +15,23 @@ export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
+
+    const categories = getCategories();
+    
     this.state = {
       period: 'January',
-      spent: 50,
-      budgeted: 350,
-      categories: getCategories()
+      spent: this.sumAmounts('spent', categories),
+      budgeted: this.sumAmounts('budgeted', categories),
+      categories: categories
     }
+  }
+
+  sumAmounts(fieldName, categories) {
+    var sum = 0;
+    categories.forEach(x => {
+      sum += x[fieldName];
+    });
+    return sum;
   }
 
   static navigationOptions = {

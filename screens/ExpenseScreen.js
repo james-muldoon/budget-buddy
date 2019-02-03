@@ -18,7 +18,7 @@ export default class ExpenseScreen extends React.Component {
 
         const id = navigation.getParam('id', null);
         const name = navigation.getParam('name', null);
-        const cost = navigation.getParam('cost', null).toString();
+        const cost = navigation.getParam('cost', null) ? navigation.getParam('cost', null).toString() : null;
         const categoryId = navigation.getParam('categoryId', null);
         const date = navigation.getParam('date', null);
 
