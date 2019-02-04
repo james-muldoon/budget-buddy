@@ -11,16 +11,38 @@ const getExpensesForCategory = (categoryId) => {
     })
 }
 
+const getCategorySummariesByPeriod = (period) => {
+    var summaries = Categories;
+
+    summaries.forEach(element => {
+        element.spent = Expenses.filter(function (e) {
+            return e.categoryId == element.id; // TODO: also filter by the period 
+        }).reduce(function (acc, e) {
+            return acc + e.amount;            
+        }, 0);
+
+    });
+    return summaries;
+}
 
 
 
+const periods = {
+    'day': 1,
+    'week': 7,
+    'fortnight': 14,
+    'month': 30, // TODO might need a more graceful way to handle months ,
+    'quarter': 90,
+    'year': 365
+}
 
 
 
 
 module.exports = {
     getCategories,
-    getExpensesForCategory
+    getExpensesForCategory,
+    getCategorySummariesByPeriod
 }
 
 
@@ -64,36 +86,36 @@ Categories = [
         id: 1,
         name: 'Groceries',
         budgeted: 100,
-        spent: 70
+        period: periods.week
     },
     {
         id: 2,
         name: 'Entertainment',
         budgeted: 50,
-        spent: 23
+        period: periods.week
     },
     {
         id: 3,
         name: 'Rent',
         budgeted: 250,
-        spent: 250
+        period: periods.week
     },
     {
         id: 4,
         name: 'Fuel',
         budgeted: 50,
-        spent: 24
+        period: periods.month
     },
     {
         id: 5,
         name: 'Internet',
-        budgeted: 23,
-        spent: 46
+        budgeted: 40,
+        period: periods.month
     },
     {
         id: 6,
         name: 'Electricity',
-        budgeted: 50,
-        spent: 67
+        budgeted: 150,
+        period: periods.quarter
     }
 ]

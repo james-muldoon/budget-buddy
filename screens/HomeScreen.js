@@ -6,18 +6,17 @@ import {
   View,
   StatusBar
 } from 'react-native';
-import { WebBrowser } from 'expo';
 import { CategorySummaryTile } from '../components/CategorySummaryTile';
 import { PeriodSummary } from '../components/PeriodSummary';
-import { getCategories } from '../constants/api';
+import { getCategorySummariesByPeriod } from '../constants/api';
 
 export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
 
-    const categories = getCategories();
-    
+    const categories = getCategorySummariesByPeriod(null);
+
     this.state = {
       period: 'January',
       spent: this.sumAmounts('spent', categories),
@@ -63,15 +62,6 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
 
