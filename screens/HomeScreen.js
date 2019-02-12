@@ -9,13 +9,14 @@ import {
 import { CategorySummaryTile } from '../components/CategorySummaryTile';
 import { PeriodSummary } from '../components/PeriodSummary';
 import { getCategorySummariesByPeriod } from '../constants/api';
+import Swiper from 'react-native-swiper';
 
 export default class HomeScreen extends React.Component {
 
   constructor(props) {
     super(props);
 
-    const categories = getCategorySummariesByPeriod(null);
+    const categories = getCategorySummariesByPeriod('year');
 
     this.state = {
       period: 'January',
@@ -40,25 +41,47 @@ export default class HomeScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      <Swiper>
+        <View style={styles.container}>
+          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-          <PeriodSummary name={this.state.period} spent={this.state.spent} budgeted={this.state.budgeted}></PeriodSummary>
+            <PeriodSummary name={this.state.period} spent={this.state.spent} budgeted={this.state.budgeted}></PeriodSummary>
 
-          {this.state.categories.map(function (item, i) {
-            return <CategorySummaryTile
-              key={i} 
-              category={item.name}  
-              spent={item.spent} 
-              budgeted={item.budgeted}
-              onPress={() => navigate('CategorySummary', { categoryId: item.id })}>
+            {this.state.categories.map(function (item, i) {
+              return <CategorySummaryTile
+                key={i}
+                category={item.name}
+                spent={item.spent}
+                budgeted={item.budgeted}
+                onPress={() => navigate('CategorySummary', { categoryId: item.id })}>
               </CategorySummaryTile>
-          })}
+            })}
+
+          </ScrollView>
+
+        </View>
 
 
-        </ScrollView>
+        <View style={styles.container}>
+          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-      </View>
+            <PeriodSummary name={'test'} spent={1} budgeted={100}></PeriodSummary>
+
+            {this.state.categories.map(function (item, i) {
+              return <CategorySummaryTile
+                key={i}
+                category={item.name}
+                spent={item.spent}
+                budgeted={item.budgeted}
+                onPress={() => navigate('CategorySummary', { categoryId: item.id })}>
+              </CategorySummaryTile>
+            })}
+
+          </ScrollView>
+
+        </View>
+      </Swiper>
+
     );
   }
 
