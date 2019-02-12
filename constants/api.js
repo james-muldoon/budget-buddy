@@ -11,20 +11,55 @@ const getExpensesForCategory = (categoryId) => {
     })
 }
 
-const getCategorySummariesByPeriod = (period) => {
+const getCategorySummariesByPeriod = (filterPeriod, filterDate) => {
     var summaries = Categories;
 
     summaries.forEach(element => {
         element.spent = Expenses.filter(function (e) {
-            return e.categoryId == element.id; // TODO: also filter by the period 
+            return e.categoryId == element.id
+                && isDateInPeriod(filterPeriod, filterDate, e.date)
         }).reduce(function (acc, e) {
-            return acc + e.amount;            
+            return acc + e.amount;
         }, 0);
 
     });
     return summaries;
 }
 
+const isDateInPeriod = (filterPeriod, filterDate, expenseDate) => {
+    year = filterDate.getFullYear();
+    month = filterDate.getMonth();
+    dayOfMonth = filterDate.getDate();
+    dayOfWeek = filterDate.getDay();
+
+    switch (filterPeriod) {
+        case 'day':
+            start = new Date(year, month, dayOfMonth);
+            end = new Date(year, month, dayOfMonth + 1);
+            break;
+        case 'week':
+            start = new Date(year, month, dayOfMonth - dayOfWeek);
+            end = new Date(year, month, start.getDate() + 7);
+            break;
+        case 'month':
+            start = new Date(year, month, 1);
+            end = new Date(year, month + 1, 1);
+            break;
+        case 'year':
+            start = new Date(filterDate.getFullYear(), 0, 1);
+            end = new Date(filterDate.getFullYear() + 1, 0, 1);
+            break;
+    }
+    return start <= expenseDate && expenseDate < end;
+}
+
+const getSummaryPeriods = () => {
+    return [
+        'week',
+        'month',
+        'year'
+    ];
+}
 
 
 const periods = {
@@ -37,12 +72,11 @@ const periods = {
 }
 
 
-
-
 module.exports = {
     getCategories,
     getExpensesForCategory,
-    getCategorySummariesByPeriod
+    getSummaryPeriods,
+    getCategorySummariesByPeriod,
 }
 
 
@@ -54,21 +88,21 @@ Expenses = [
         categoryId: 1,
         name: 'Groceries',
         amount: 22.32,
-        date: new Date(2019, 1, 31)
+        date: new Date(2019, 1, 15)
     },
     {
         id: 2,
         categoryId: 1,
         name: 'not beer ;) ;)',
-        amount: 2.1,
-        date: new Date(2019, 1, 28)
+        amount: 45,
+        date: new Date(2019, 1, 23)
     },
     {
         id: 3,
         categoryId: 3,
         name: 'Rent',
         amount: 1003.23,
-        date: new Date(2019, 1, 27)
+        date: new Date(2019, 1, 24)
     },
     {
         id: 4,

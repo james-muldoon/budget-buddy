@@ -16,7 +16,7 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    const categories = getCategorySummariesByPeriod('year');
+    const categories = getCategorySummariesByPeriod('week', new Date());
 
     this.state = {
       period: 'January',
