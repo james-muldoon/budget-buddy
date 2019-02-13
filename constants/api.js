@@ -1,13 +1,37 @@
-
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 
 const getCategories = () => {
     return Categories;
 }
 
-const getExpensesForCategory = (categoryId) => {
+getSummaryViews = () => {
+    return [
+        {
+            period: 'week',
+            title: 'Week',
+            subtitle: 'TODO - week date range'//new Date(year, month, dayOfMonth - dayOfWeek).toString() + new Date(year, month, start.getDate() + 7).toString()
+        },
+        {
+            period: 'month',
+            title: 'Month',
+            subtitle: monthNames[new Date().getMonth()]
+        },
+        {
+            period: 'year',
+            title: 'Year',
+            subtitle: new Date().getFullYear()
+        }
+    ]
+}
+
+// filterPeriod and filterDate are optional
+const getExpensesForCategory = (categoryId, filterPeriod, filterDate) => {
     return Expenses.filter(function (e) {
-        return e.categoryId === categoryId;
+        inDateRange = filterDate ? isDateInPeriod(filterPeriod, filterDate, e.categoryId) : true;
+        return inDateRange &&  e.categoryId === categoryId;
     })
 }
 
@@ -41,6 +65,10 @@ const isDateInPeriod = (filterPeriod, filterDate, expenseDate) => {
             start = new Date(year, month, dayOfMonth - dayOfWeek);
             end = new Date(year, month, start.getDate() + 7);
             break;
+        // TODO: implement logic for fortnight. Need a "start week" 
+        // case 'fortnight':
+        //     start = new Date(year, month, dayOfMonth - dayOfWeek);
+        //     end = new Date(year, month, start.getDate() + 14);
         case 'month':
             start = new Date(year, month, 1);
             end = new Date(year, month + 1, 1);
@@ -73,6 +101,7 @@ const periods = {
 
 
 module.exports = {
+    getSummaryViews,
     getCategories,
     getExpensesForCategory,
     getSummaryPeriods,

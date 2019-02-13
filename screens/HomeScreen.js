@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { CategorySummaryTile } from '../components/CategorySummaryTile';
 import { PeriodSummary } from '../components/PeriodSummary';
-import { getCategorySummariesByPeriod } from '../constants/api';
+import { getCategorySummariesByPeriod, getSummaryViews } from '../constants/api';
 import Swiper from 'react-native-swiper';
 
 export default class HomeScreen extends React.Component {
@@ -16,13 +16,15 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    const categories = getCategorySummariesByPeriod('week', new Date());
+    const views = getSummaryViews();
+    views.forEach(view => {
+      view.categorySummaries = getCategorySummariesByPeriod(view.period, new Date()); // FIXME: last category summary being used for all
+      view.totalSpent = this.sumAmounts('spent', view.categorySummaries);
+      view.totalBudgeted = this.sumAmounts('budgeted', view.categorySummaries);
+    });
 
     this.state = {
-      period: 'January',
-      spent: this.sumAmounts('spent', categories),
-      budgeted: this.sumAmounts('budgeted', categories),
-      categories: categories
+      views: views
     }
   }
 
@@ -42,44 +44,30 @@ export default class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <Swiper>
-        <View style={styles.container}>
-          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        {this.state.views.map(function (view, i) {
+          return <View style={styles.container} key={`View${i}`}>
+            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-            <PeriodSummary name={this.state.period} spent={this.state.spent} budgeted={this.state.budgeted}></PeriodSummary>
+              <PeriodSummary
+                title={view.title}
+                subtitle={view.subtitle}
+                spent={view.totalSpent}
+                budgeted={view.totalBudgeted}>
+              </PeriodSummary>
 
-            {this.state.categories.map(function (item, i) {
-              return <CategorySummaryTile
-                key={i}
-                category={item.name}
-                spent={item.spent}
-                budgeted={item.budgeted}
-                onPress={() => navigate('CategorySummary', { categoryId: item.id })}>
-              </CategorySummaryTile>
-            })}
+              {view.categorySummaries.map(function (item, j) {
+                return <CategorySummaryTile
+                  key={`CategorySummary${j}`}
+                  category={item.name}
+                  spent={item.spent}
+                  budgeted={item.budgeted}
+                  onPress={() => navigate('CategorySummary', { categoryId: item.id })}>
+                </CategorySummaryTile>
+              })}
 
-          </ScrollView>
-
-        </View>
-
-
-        <View style={styles.container}>
-          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-
-            <PeriodSummary name={'test'} spent={1} budgeted={100}></PeriodSummary>
-
-            {this.state.categories.map(function (item, i) {
-              return <CategorySummaryTile
-                key={i}
-                category={item.name}
-                spent={item.spent}
-                budgeted={item.budgeted}
-                onPress={() => navigate('CategorySummary', { categoryId: item.id })}>
-              </CategorySummaryTile>
-            })}
-
-          </ScrollView>
-
-        </View>
+            </ScrollView>
+          </View>
+        })}
       </Swiper>
 
     );

@@ -23,12 +23,15 @@ export class PeriodSummary extends React.Component {
 
     render() {
         return <View style={{ alignItems: 'stretch', flex: 1, backgroundColor: 'lightgray', paddingBottom: '3%' }} >
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: '2%' }}>
+                <Text style={styles.title}>{this.props.title}</Text>
+            </View>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                <Text style={styles.period}>{this.props.name}</Text>
+                <Text style={styles.subtitle}>{this.props.subtitle}</Text>
             </View>
             <Progress.Bar
                 indeterminate={false} // use this while waiting for calculation to come through?  
-                style={{ marginLeft: '5%', marginTop: '5%', marginRight: '5%', marginBottom: '2%' }}
+                style={{ marginLeft: '5%', marginTop: '2%', marginRight: '5%', marginBottom: '2%' }}
                 progress={this.state.percentageComplete}
                 width={null} // null: scales with flexbox
                 height={10}
@@ -46,9 +49,13 @@ const styles = StyleSheet.create({
     tile: {
         height: 100
     },
-    period: {
-        fontSize: 26,
+    title: {
+        fontSize: 28,
         fontWeight: 'bold'
+    },
+    subtitle: {
+        fontSize: 14,
+        fontStyle: 'italic'
     },
     moneySpent: {
         fontSize: 24
