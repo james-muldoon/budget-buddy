@@ -21,7 +21,6 @@ export default class CategorySummaryScreen extends React.Component {
             selectedCategory: catId,
             expenses: expenses
         }
-
     }
 
     editExpense(item) {

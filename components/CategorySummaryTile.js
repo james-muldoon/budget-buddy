@@ -8,6 +8,10 @@ import {
 
 export class CategorySummaryTile extends React.Component {
 
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
         <TouchableOpacity onPress={this.props.onPress}>

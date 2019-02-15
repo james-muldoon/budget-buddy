@@ -30,7 +30,7 @@ export class PeriodSummary extends React.Component {
                 <Text style={styles.subtitle}>{this.props.subtitle}</Text>
             </View>
             <Progress.Bar
-                indeterminate={false} // use this while waiting for calculation to come through?  
+                indeterminate={false}  
                 style={{ marginLeft: '5%', marginTop: '2%', marginRight: '5%', marginBottom: '2%' }}
                 progress={this.state.percentageComplete}
                 width={null} // null: scales with flexbox

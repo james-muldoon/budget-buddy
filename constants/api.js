@@ -1,5 +1,27 @@
+import { AsyncStorage } from 'react-native';
+
+_storeData = async (item) => {
+    try {
+        await AsyncStorage.setItem('TESTKEY', item);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+_retrieveData = async () => {
+    try {
+        const value = await AsyncStorage.getItem('TESTKEY');
+        if (value !== null) {
+            console.log(value);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+
 const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
+    "July", "August", "September", "October", "November", "December"
 ];
 
 
@@ -31,12 +53,12 @@ getSummaryViews = () => {
 const getExpensesForCategory = (categoryId, filterPeriod, filterDate) => {
     return Expenses.filter(function (e) {
         inDateRange = filterDate ? isDateInPeriod(filterPeriod, filterDate, e.categoryId) : true;
-        return inDateRange &&  e.categoryId === categoryId;
+        return inDateRange && e.categoryId === categoryId;
     })
 }
 
 const getCategorySummariesByPeriod = (filterPeriod, filterDate) => {
-    var summaries = Categories;
+    var summaries = Categories.slice();
 
     summaries.forEach(element => {
         element.spent = Expenses.filter(function (e) {
@@ -45,7 +67,6 @@ const getCategorySummariesByPeriod = (filterPeriod, filterDate) => {
         }).reduce(function (acc, e) {
             return acc + e.amount;
         }, 0);
-
     });
     return summaries;
 }
@@ -56,7 +77,7 @@ const isDateInPeriod = (filterPeriod, filterDate, expenseDate) => {
     dayOfMonth = filterDate.getDate();
     dayOfWeek = filterDate.getDay();
 
-    switch (filterPeriod) {
+    switch (filterPeriod) {  
         case 'day':
             start = new Date(year, month, dayOfMonth);
             end = new Date(year, month, dayOfMonth + 1);
@@ -70,7 +91,7 @@ const isDateInPeriod = (filterPeriod, filterDate, expenseDate) => {
         //     start = new Date(year, month, dayOfMonth - dayOfWeek);
         //     end = new Date(year, month, start.getDate() + 14);
         case 'month':
-            start = new Date(year, month, 1);
+            start = new Date(year, month, 1); 
             end = new Date(year, month + 1, 1);
             break;
         case 'year':
@@ -106,6 +127,8 @@ module.exports = {
     getExpensesForCategory,
     getSummaryPeriods,
     getCategorySummariesByPeriod,
+    _storeData,
+    _retrieveData
 }
 
 

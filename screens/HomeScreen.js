@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { CategorySummaryTile } from '../components/CategorySummaryTile';
 import { PeriodSummary } from '../components/PeriodSummary';
-import { getCategorySummariesByPeriod, getSummaryViews } from '../constants/api';
+import { getCategorySummariesByPeriod, getSummaryViews, _storeData, _retrieveData } from '../constants/api';
 import Swiper from 'react-native-swiper';
 
 export default class HomeScreen extends React.Component {
@@ -17,11 +17,14 @@ export default class HomeScreen extends React.Component {
     super(props);
 
     const views = getSummaryViews();
+
     views.forEach(view => {
-      view.categorySummaries = getCategorySummariesByPeriod(view.period, new Date()); // FIXME: last category summary being used for all
-      view.totalSpent = this.sumAmounts('spent', view.categorySummaries);
-      view.totalBudgeted = this.sumAmounts('budgeted', view.categorySummaries);
-    });
+        view.categorySummaries = getCategorySummariesByPeriod(view.period, new Date()); // FIXME: last category summary being used for all
+        // problem is category summaries is being assigned the function  
+        view.totalSpent = this.sumAmounts('spent', view.categorySummaries);
+        view.totalBudgeted = this.sumAmounts('budgeted', view.categorySummaries);
+      }
+    );
 
     this.state = {
       views: views
