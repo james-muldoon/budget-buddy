@@ -4,7 +4,7 @@ import {
     StyleSheet,
     View,
 } from 'react-native';
-import { getExpensesForCategory } from '../constants/api';
+import { getExpensesForCategory } from '../constants/ServiceLayer';
 import { ExpenseSummaryTile } from '../components/ExpenseSummaryTile';
 import { ScrollView } from 'react-native-gesture-handler';
 

@@ -14,16 +14,17 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Week',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
+  tabBarIcon(focused: boolean): any {
+    return (
+      <TabBarIcon
+        focused={focused}
+        name={
+          Platform.OS === 'ios'
+            ? `ios-information-circle${focused ? '' : '-outline'}`
+            : 'md-information-circle'
+        }></TabBarIcon>
+    )
+  }
 };
 
 const LinksStack = createStackNavigator({

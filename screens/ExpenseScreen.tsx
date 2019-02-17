@@ -6,7 +6,7 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import { getCategories } from '../constants/api';
+import { getCategories } from '../constants/ServiceLayer';
 
 export default class ExpenseScreen extends React.Component {
     categories = getCategories();

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { CategorySummaryTile } from '../components/CategorySummaryTile';
 import { PeriodSummary } from '../components/PeriodSummary';
-import { getCategorySummariesByPeriod, getSummaryViews, _storeData, _retrieveData } from '../constants/api';
+import { getCategorySummariesByPeriod, getSummaryViews, _storeData, _retrieveData } from '../constants/ServiceLayer';
 import Swiper from 'react-native-swiper';
 
 export default class HomeScreen extends React.Component {

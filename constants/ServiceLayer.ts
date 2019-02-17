@@ -1,0 +1,108 @@
+import { AsyncStorage } from 'react-native';
+import { Category, PeriodSummaryView, Expense, CategorySummary } from './Model';
+import { Month, Period } from './Enums';
+import { Categories, Expenses } from './TestData';
+
+export default class API {
+
+    static async storeData(item) {
+        try {
+            await AsyncStorage.setItem('TESTKEY', item);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async retrieveData() {
+        try {
+            const value = await AsyncStorage.getItem('TESTKEY');
+            if (value !== null) {
+                console.log(value);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
+    static getSummaryViews(): PeriodSummaryView[] {
+        let views: PeriodSummaryView[] = [
+            {
+                Name: 'week',
+                Title: 'Week',
+                Subtitle: 'TODO - week date range'
+                // new Date(year, month, dayOfMonth - dayOfWeek).toString() + new Date(year, month, start.getDate() + 7).toString()
+            },
+            {
+                Name: 'month',
+                Title: 'Month',
+                Subtitle: Month[new Date().getMonth()]
+            },
+            {
+                Name: 'year',
+                Title: 'Year',
+                Subtitle: new Date().getFullYear().toString()
+            }
+        ];
+
+        return views;
+    }
+
+    static getCategories(): Category[] {
+        return Categories;
+    }
+
+    static getExpensesForCategory(categoryId: number, filterPeriod?: Period, filterDate?: Date): Expense[] {
+        return Expenses.filter(function (e) {
+            let inDateRange: boolean = filterDate ? this.isDateInPeriod(filterPeriod, filterDate, e.CategoryId) : true;
+            return inDateRange && e.CategoryId === categoryId;
+        })
+    }
+
+    static isDateInPeriod(filterPeriod: Period, filterDate: Date, expenseDate: Date): boolean {
+        let year: number = filterDate.getFullYear();
+        let month: number = filterDate.getMonth();
+        let dayOfMonth: number = filterDate.getDate();
+        let dayOfWeek: number = filterDate.getDay();
+
+        let start: Date, end: Date;
+    
+        switch (filterPeriod) {
+            case Period.Day:
+                start = new Date(year, month, dayOfMonth);
+                end = new Date(year, month, dayOfMonth + 1);
+                break;
+            case Period.Week:
+                start = new Date(year, month, dayOfMonth - dayOfWeek);
+                end = new Date(year, month, start.getDate() + 7);
+                break;
+            // TODO: implement logic for fortnight. Need a "start week" 
+            // case 'fortnight':
+            //     start = new Date(year, month, dayOfMonth - dayOfWeek);
+            //     end = new Date(year, month, start.getDate() + 14);
+            case Period.Month:
+                start = new Date(year, month, 1);
+                end = new Date(year, month + 1, 1);
+                break;
+            case Period.Year:
+                start = new Date(filterDate.getFullYear(), 0, 1);
+                end = new Date(filterDate.getFullYear() + 1, 0, 1);
+                break;
+        }
+        return start <= expenseDate && expenseDate < end;
+    }
+    
+    getCategorySummariesByPeriod(filterPeriod: Period, filterDate: Date) {
+        let summaries: Category[] = Categories.slice();
+    
+        return summaries.forEach((category: CategorySummary) => {
+            category.Spent = Expenses.filter(function (e) {
+                return e.CategoryId == category.CategoryId
+                    && this.isDateInPeriod(filterPeriod, filterDate, e.Date)
+            }).reduce(function (acc, e) {
+                return acc + e.Cost;
+            }, 0);
+        });
+    }
+
+}

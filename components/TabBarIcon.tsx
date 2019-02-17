@@ -3,10 +3,20 @@ import { Icon } from 'expo';
 
 import Colors from '../constants/Colors';
 
-export default class TabBarIcon extends React.Component {
+export interface ITabBarIconProps {
+  focused: boolean;
+  name: string;
+}
+
+export default class TabBarIcon extends React.Component<ITabBarIconProps, any> {
+
+  constructor(props: ITabBarIconProps) {
+    super(props);
+  }
+
   render() {
     return (
-      <Icon.Ionicons
+      < Icon.Ionicons
         name={this.props.name}
         size={26}
         style={{ marginBottom: -3 }}
