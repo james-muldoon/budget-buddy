@@ -8,32 +8,36 @@ import {
 } from 'react-native';
 import { CategorySummaryTile } from '../components/CategorySummaryTile';
 import { PeriodSummary } from '../components/PeriodSummary';
-import { getCategorySummariesByPeriod, getSummaryViews, _storeData, _retrieveData } from '../constants/ServiceLayer';
+import API from '../constants/ServiceLayer';
 import Swiper from 'react-native-swiper';
+import { NavigationScreenProp } from 'react-navigation';
+import { CategorySummary, PeriodSummaryView } from '../constants/Model';
 
-export default class HomeScreen extends React.Component {
+export interface IHomeScreenProps {
+  navigation: NavigationScreenProp<any, any>;
+}
+
+export default class HomeScreen extends React.Component<IHomeScreenProps, any> {
 
   constructor(props) {
     super(props);
 
-    const views = getSummaryViews();
-
+    const views: PeriodSummaryView[] = API.getPeriodSummaryViews();
     views.forEach(view => {
-        view.categorySummaries = getCategorySummariesByPeriod(view.period, new Date()); // FIXME: last category summary being used for all
-        // problem is category summaries is being assigned the function  
-        view.totalSpent = this.sumAmounts('spent', view.categorySummaries);
-        view.totalBudgeted = this.sumAmounts('budgeted', view.categorySummaries);
-      }
-    );
+      view.CategorySummaries = API.getCategorySummariesByPeriod(view.Period, new Date()); // FIXME: last category summary being used for all
+      // problem is category summaries is being assigned the function  
+      view.TotalSpent = this.sumAmounts('Spent', view.CategorySummaries);
+      view.TotalBudgeted = this.sumAmounts('Budgeted', view.CategorySummaries);
+    });
 
     this.state = {
       views: views
     }
   }
 
-  sumAmounts(fieldName, categories) {
+  sumAmounts(fieldName: string, categories: CategorySummary[]) {
     var sum = 0;
-    categories.forEach(x => {
+    categories.forEach((x: CategorySummary) => {
       sum += x[fieldName];
     });
     return sum;
@@ -47,24 +51,24 @@ export default class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <Swiper>
-        {this.state.views.map(function (view, i) {
+        {this.state.views.map(function (view: PeriodSummaryView, i: number) {
           return <View style={styles.container} key={`View${i}`}>
             <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
               <PeriodSummary
-                title={view.title}
-                subtitle={view.subtitle}
-                spent={view.totalSpent}
-                budgeted={view.totalBudgeted}>
+                Title={view.Title}
+                Subtitle={view.Subtitle}
+                Spent={view.TotalSpent}
+                Budgeted={view.TotalBudgeted}>
               </PeriodSummary>
 
-              {view.categorySummaries.map(function (item, j) {
+              {view.CategorySummaries.map(function (item: CategorySummary, j: number) {
                 return <CategorySummaryTile
                   key={`CategorySummary${j}`}
-                  category={item.name}
-                  spent={item.spent}
-                  budgeted={item.budgeted}
-                  onPress={() => navigate('CategorySummary', { categoryId: item.id })}>
+                  Category={item.Name}
+                  Spent={item.Spent}
+                  Budgeted={item.Budgeted}
+                  onPress={() => navigate('CategorySummary', { categoryId: item.CategoryId })}>
                 </CategorySummaryTile>
               })}
 
@@ -72,12 +76,11 @@ export default class HomeScreen extends React.Component {
           </View>
         })}
       </Swiper>
-
     );
   }
 
-}
 
+}
 
 
 const styles = StyleSheet.create({
@@ -141,13 +144,13 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         shadowColor: 'black',
-        shadowOffset: { height: -3 },
+        // shadowOffset: { height: -3 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
       },
       android: {
-        elevation: 20,
-      },
+        elevation: 20
+      }
     }),
     alignItems: 'center',
     backgroundColor: '#fbfbfb',

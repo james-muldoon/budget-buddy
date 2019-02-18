@@ -6,21 +6,26 @@ import {
     TextInput,
     View,
 } from 'react-native';
-import { getCategories } from '../constants/ServiceLayer';
+import API from '../constants/ServiceLayer';
+import { NavigationScreenProp } from 'react-navigation';
 
-export default class ExpenseScreen extends React.Component {
-    categories = getCategories();
+export interface IExpenseScreenProps {
+    Navigation: NavigationScreenProp<any, any>;
+}
+
+export default class ExpenseScreen extends React.Component<IExpenseScreenProps, any> {
+    categories = API.getCategories();
 
     constructor(props) {
         super(props);
 
-        const { navigation } = this.props;
+        const { Navigation } = this.props;
 
-        const id = navigation.getParam('id', null);
-        const name = navigation.getParam('name', null);
-        const cost = navigation.getParam('cost', null) ? navigation.getParam('cost', null).toString() : null;
-        const categoryId = navigation.getParam('categoryId', null);
-        const date = navigation.getParam('date', null);
+        const id = Navigation.getParam('id', null);
+        const name = Navigation.getParam('name', null);
+        const cost = Navigation.getParam('cost', null) ? Navigation.getParam('cost', null).toString() : null;
+        const categoryId = Navigation.getParam('categoryId', null);
+        const date = Navigation.getParam('date', null);
 
         this.state = {
             id: id,
@@ -33,7 +38,7 @@ export default class ExpenseScreen extends React.Component {
 
     saveExpense = () => {
         // TODO implement code to save expense
-        this.props.navigation.navigate('Home');
+        this.props.Navigation.navigate('Home');
     }
 
 
@@ -53,8 +58,8 @@ export default class ExpenseScreen extends React.Component {
                     {this.categories.map(function (item, i) {
                         return <Picker.Item
                             key={i}
-                            label={item.name}
-                            value={item.id}>
+                            label={item.Name}
+                            value={item.CategoryId}>
                         </Picker.Item>
                     })}
                 </Picker>

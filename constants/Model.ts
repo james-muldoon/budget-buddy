@@ -11,7 +11,7 @@ export class Category {
 }
 
 export class CategorySummary extends Category {
-    Spent: number;
+    Spent?: number;
 }
 
 export class Expense {
@@ -25,7 +25,11 @@ export class Expense {
 
 export class PeriodSummaryView {
     Name: string;
+    Period: Period;
     Title: string;
     Subtitle: string;
+    CategorySummaries?: CategorySummary[];
+    TotalSpent?: number;
+    TotalBudgeted?: number;
     // Date: Date;
 }

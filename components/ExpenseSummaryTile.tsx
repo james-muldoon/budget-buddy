@@ -6,14 +6,22 @@ import {
     View
 } from 'react-native';
 
-export class ExpenseSummaryTile extends React.Component {
+export interface IExpenseSummaryTileProps {
+    Description: string;
+    Spent: number;
+    Date?: Date;
+    onPress: () => void;
+    
+}
+
+export class ExpenseSummaryTile extends React.Component<IExpenseSummaryTileProps, any> {
 
     render() {
         return (
         <TouchableOpacity onPress={this.props.onPress}>
             <View style={styles.tile}>
-                <Text style={styles.name}>{this.props.name}</Text>
-                <Text style={styles.amount}>{this.props.amount}</Text>
+                <Text style={styles.name}>{this.props.Description}</Text>
+                <Text style={styles.amount}>{this.props.Spent}</Text>
             </View>
         </TouchableOpacity>
         )

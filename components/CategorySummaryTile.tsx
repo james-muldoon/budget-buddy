@@ -6,7 +6,14 @@ import {
     View
 } from 'react-native';
 
-export class CategorySummaryTile extends React.Component {
+export interface ICategorySummaryTile {
+    Category: string;
+    Spent?: number;
+    Budgeted: number;
+    onPress: () => void;
+}
+
+export class CategorySummaryTile extends React.Component<ICategorySummaryTile, any> {
 
     constructor(props) {
         super(props);
@@ -16,9 +23,9 @@ export class CategorySummaryTile extends React.Component {
         return (
         <TouchableOpacity onPress={this.props.onPress}>
             <View style={styles.tile}>
-                <Text style={styles.category}>{this.props.category}</Text>
+                <Text style={styles.category}>{this.props.Category}</Text>
                 <Text style={styles.amounts}>
-                    {this.props.spent ? '$' + this.props.spent : ''} / ${this.props.budgeted}
+                    {this.props.Spent ? '$' + this.props.Spent : ''} / ${this.props.Budgeted}
                 </Text>
             </View>
         </TouchableOpacity>

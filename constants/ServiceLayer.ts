@@ -25,23 +25,26 @@ export default class API {
     };
 
 
-    static getSummaryViews(): PeriodSummaryView[] {
+    static getPeriodSummaryViews(): PeriodSummaryView[] {
         let views: PeriodSummaryView[] = [
             {
                 Name: 'week',
                 Title: 'Week',
-                Subtitle: 'TODO - week date range'
+                Subtitle: 'TODO - week date range',
+                Period: Period.Week
                 // new Date(year, month, dayOfMonth - dayOfWeek).toString() + new Date(year, month, start.getDate() + 7).toString()
             },
             {
                 Name: 'month',
                 Title: 'Month',
-                Subtitle: Month[new Date().getMonth()]
+                Subtitle: Month[new Date().getMonth()],
+                Period: Period.Month
             },
             {
                 Name: 'year',
                 Title: 'Year',
-                Subtitle: new Date().getFullYear().toString()
+                Subtitle: new Date().getFullYear().toString(),
+                Period: Period.Year
             }
         ];
 
@@ -66,7 +69,7 @@ export default class API {
         let dayOfWeek: number = filterDate.getDay();
 
         let start: Date, end: Date;
-    
+
         switch (filterPeriod) {
             case Period.Day:
                 start = new Date(year, month, dayOfMonth);
@@ -91,18 +94,22 @@ export default class API {
         }
         return start <= expenseDate && expenseDate < end;
     }
-    
-    getCategorySummariesByPeriod(filterPeriod: Period, filterDate: Date) {
-        let summaries: Category[] = Categories.slice();
-    
-        return summaries.forEach((category: CategorySummary) => {
+
+    static getCategorySummariesByPeriod(filterPeriod: Period, filterDate: Date): CategorySummary[] {
+        var self = this;
+
+        let summaries: CategorySummary[] = Categories.slice();
+
+        summaries.forEach((category: CategorySummary) => {
             category.Spent = Expenses.filter(function (e) {
                 return e.CategoryId == category.CategoryId
-                    && this.isDateInPeriod(filterPeriod, filterDate, e.Date)
+                    && self.isDateInPeriod(filterPeriod, filterDate, e.Date)
             }).reduce(function (acc, e) {
                 return acc + e.Cost;
             }, 0);
         });
+
+        return summaries;
     }
 
 }

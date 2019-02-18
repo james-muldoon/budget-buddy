@@ -6,7 +6,14 @@ import {
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 
-export class PeriodSummary extends React.Component {
+export interface IPeriodSummaryProps {
+    Title: string;
+    Subtitle: string;
+    Spent: number;
+    Budgeted: number;
+}
+
+export class PeriodSummary extends React.Component<IPeriodSummaryProps, any> {
 
     constructor(props) {
         super(props);
@@ -17,17 +24,17 @@ export class PeriodSummary extends React.Component {
     }
 
     getPercentageComplete() {
-        var result = this.props.spent / parseFloat(this.props.budgeted);
+        let result: number = this.props.Spent / this.props.Budgeted; // confirm division is being done as floating point
         return (result > 1.0 ? 1.0 : result);
     }
 
     render() {
         return <View style={{ alignItems: 'stretch', flex: 1, backgroundColor: 'lightgray', paddingBottom: '3%' }} >
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: '2%' }}>
-                <Text style={styles.title}>{this.props.title}</Text>
+                <Text style={styles.title}>{this.props.Title}</Text>
             </View>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                <Text style={styles.subtitle}>{this.props.subtitle}</Text>
+                <Text style={styles.subtitle}>{this.props.Subtitle}</Text>
             </View>
             <Progress.Bar
                 indeterminate={false}  
@@ -38,7 +45,7 @@ export class PeriodSummary extends React.Component {
                 useNativeDriver={true} >
             </Progress.Bar>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-                <Text style={styles.moneySpent}>${this.props.spent} of ${this.props.budgeted}</Text>
+                <Text style={styles.moneySpent}>${this.props.Spent} of ${this.props.Budgeted}</Text>
             </View>
         </View>
     }
