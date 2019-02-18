@@ -108,7 +108,7 @@ export default class API {
                 return acc + e.Cost;
             }, 0);
         });
-
+        
         return summaries;
     }
 

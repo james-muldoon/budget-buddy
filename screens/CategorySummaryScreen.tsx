@@ -8,9 +8,10 @@ import API from '../constants/ServiceLayer';
 import { ExpenseSummaryTile } from '../components/ExpenseSummaryTile';
 import { ScrollView } from 'react-native-gesture-handler';
 import { NavigationScreenProp } from 'react-navigation';
+import { Expense } from '../constants/Model';
 
 export interface ICategorySummaryScreenProps {
-    Navigation: NavigationScreenProp<any, any>;
+    navigation: NavigationScreenProp<any, any>;
 }
 
 export default class CategorySummaryScreen extends React.Component<ICategorySummaryScreenProps, any> {
@@ -18,8 +19,8 @@ export default class CategorySummaryScreen extends React.Component<ICategorySumm
     constructor(props) {
         super(props);
 
-        const { Navigation } = this.props;
-        const categoryId = Navigation.getParam('categoryId', null);
+        const { navigation } = this.props;
+        const categoryId = navigation.getParam('categoryId', null);
         const expenses = API.getExpensesForCategory(categoryId);
 
         this.state = {
@@ -29,7 +30,7 @@ export default class CategorySummaryScreen extends React.Component<ICategorySumm
     }
 
     editExpense(item) {
-        this.props.Navigation.navigate('Expense', {
+        this.props.navigation.navigate('Expense', {
             id: item.id,
             name: item.name,
             cost: item.amount,
@@ -39,15 +40,15 @@ export default class CategorySummaryScreen extends React.Component<ICategorySumm
     }
 
     render() {
-        const { navigate } = this.props.Navigation;
+        const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.container}>
-                    {this.state.expenses.map(function (item, i) {
+                    {this.state.expenses.map(function (item: Expense, i) {
                         return <ExpenseSummaryTile
-                            key={item.id}
-                            Description={item.name}
-                            Spent={item.amount}
+                            key={item.ExpenseId}
+                            Description={item.Description}
+                            Spent={item.Cost}
                             onPress={() => this.editExpense(item)}>
                         </ExpenseSummaryTile>
                     }, this)}

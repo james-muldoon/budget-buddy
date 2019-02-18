@@ -22,10 +22,9 @@ export default class HomeScreen extends React.Component<IHomeScreenProps, any> {
   constructor(props) {
     super(props);
 
-    const views: PeriodSummaryView[] = API.getPeriodSummaryViews();
-    views.forEach(view => {
-      view.CategorySummaries = API.getCategorySummariesByPeriod(view.Period, new Date()); // FIXME: last category summary being used for all
-      // problem is category summaries is being assigned the function  
+    let views: PeriodSummaryView[] = API.getPeriodSummaryViews();
+    views.forEach((view: PeriodSummaryView) => {
+      view.CategorySummaries = API.getCategorySummariesByPeriod(view.Period, new Date()); // every view is given the result of the last evaluation of this function
       view.TotalSpent = this.sumAmounts('Spent', view.CategorySummaries);
       view.TotalBudgeted = this.sumAmounts('Budgeted', view.CategorySummaries);
     });

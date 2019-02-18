@@ -10,7 +10,7 @@ import API from '../constants/ServiceLayer';
 import { NavigationScreenProp } from 'react-navigation';
 
 export interface IExpenseScreenProps {
-    Navigation: NavigationScreenProp<any, any>;
+    navigation: NavigationScreenProp<any, any>;
 }
 
 export default class ExpenseScreen extends React.Component<IExpenseScreenProps, any> {
@@ -19,13 +19,13 @@ export default class ExpenseScreen extends React.Component<IExpenseScreenProps, 
     constructor(props) {
         super(props);
 
-        const { Navigation } = this.props;
+        const { navigation } = this.props;
 
-        const id = Navigation.getParam('id', null);
-        const name = Navigation.getParam('name', null);
-        const cost = Navigation.getParam('cost', null) ? Navigation.getParam('cost', null).toString() : null;
-        const categoryId = Navigation.getParam('categoryId', null);
-        const date = Navigation.getParam('date', null);
+        const id = navigation.getParam('id', null);
+        const name = navigation.getParam('name', null);
+        const cost = navigation.getParam('cost', null) ? navigation.getParam('cost', null).toString() : null;
+        const categoryId = navigation.getParam('categoryId', null);
+        const date = navigation.getParam('date', null);
 
         this.state = {
             id: id,
@@ -38,7 +38,7 @@ export default class ExpenseScreen extends React.Component<IExpenseScreenProps, 
 
     saveExpense = () => {
         // TODO implement code to save expense
-        this.props.Navigation.navigate('Home');
+        this.props.navigation.navigate('Home');
     }
 
 
