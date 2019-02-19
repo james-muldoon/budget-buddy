@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import API from '../constants/ServiceLayer';
 import { NavigationScreenProp } from 'react-navigation';
+import { Category } from '../constants/Model';
 
 export interface IExpenseScreenProps {
     navigation: NavigationScreenProp<any, any>;
@@ -20,19 +21,19 @@ export default class ExpenseScreen extends React.Component<IExpenseScreenProps, 
         super(props);
 
         const { navigation } = this.props;
-
-        const id = navigation.getParam('ExpenseId', null);
-        const name = navigation.getParam('Description', null);
-        const cost = navigation.getParam('Cost', null) ? navigation.getParam('Cost', null).toString() : null;
-        const categoryId = navigation.getParam('CategoryId', null);
-        const date = navigation.getParam('Date', null);
+        // TODO investigate efficiency of passing all props, or only passing id and fetching info from backend 
+        const ExpenseId: number = navigation.getParam('ExpenseId', null);
+        const Description: string = navigation.getParam('Description', null);
+        const Cost: number = navigation.getParam('Cost', null) ? navigation.getParam('Cost', null).toString() : null;
+        const CategoryId: number = navigation.getParam('CategoryId', null);
+        const ExpenseDate: Date = navigation.getParam('Date', null);
 
         this.state = {
-            id: id,
-            name: name,
-            cost: cost,
-            selectedCategory: categoryId,
-            date: date
+            ExpenseId: ExpenseId,
+            Name: Description,
+            Cost: Cost,
+            SelectedCategory: CategoryId,
+            ExpenseDate: ExpenseDate
         }
     }
 
@@ -47,15 +48,15 @@ export default class ExpenseScreen extends React.Component<IExpenseScreenProps, 
             <View style={styles.container}>
                 <TextInput
                     style={{}}
-                    onChangeText={(text) => this.setState({ name: text })}
-                    value={this.state.name}
+                    onChangeText={(text) => this.setState({ Name: text })}
+                    value={this.state.Name}
                     placeholder='Enter expense name...'
                     autoCorrect={true}>
                 </TextInput>
 
                 <Picker
-                    selectedValue={this.state.selectedCategory} >
-                    {this.categories.map(function (item, i) {
+                    selectedValue={this.state.SelectedCategory} >
+                    {this.categories.map(function (item: Category, i) {
                         return <Picker.Item
                             key={i}
                             label={item.Name}
@@ -66,7 +67,7 @@ export default class ExpenseScreen extends React.Component<IExpenseScreenProps, 
 
                 <TextInput
                     style={{}}
-                    onChangeText={(text) => this.setState({ cost: text })}
+                    onChangeText={(text) => this.setState({ Cost: text })}
                     value={this.state.cost}
                     placeholder='Amount...'
                     autoCorrect={true}
