@@ -21,11 +21,11 @@ export default class ExpenseScreen extends React.Component<IExpenseScreenProps, 
 
         const { navigation } = this.props;
 
-        const id = navigation.getParam('id', null);
-        const name = navigation.getParam('name', null);
-        const cost = navigation.getParam('cost', null) ? navigation.getParam('cost', null).toString() : null;
-        const categoryId = navigation.getParam('categoryId', null);
-        const date = navigation.getParam('date', null);
+        const id = navigation.getParam('ExpenseId', null);
+        const name = navigation.getParam('Description', null);
+        const cost = navigation.getParam('Cost', null) ? navigation.getParam('Cost', null).toString() : null;
+        const categoryId = navigation.getParam('CategoryId', null);
+        const date = navigation.getParam('Date', null);
 
         this.state = {
             id: id,

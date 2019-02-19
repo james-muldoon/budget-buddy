@@ -29,13 +29,13 @@ export default class CategorySummaryScreen extends React.Component<ICategorySumm
         }
     }
 
-    editExpense(item) {
+    editExpense(expense: Expense) {
         this.props.navigation.navigate('Expense', {
-            id: item.id,
-            name: item.name,
-            cost: item.amount,
-            categoryId: this.state.selectedCategory,
-            date: item.date
+            ExpenseId: expense.ExpenseId,
+            Description: expense.Description,
+            Cost: expense.Cost,
+            CategoryId: expense.CategoryId,
+            Date: expense.Date
         });
     }
 

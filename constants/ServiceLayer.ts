@@ -121,6 +121,4 @@ export default class API {
 
         return categorySummaries;
     }
-
-
 }
