@@ -98,18 +98,29 @@ export default class API {
     static getCategorySummariesByPeriod(filterPeriod: Period, filterDate: Date): CategorySummary[] {
         var self = this;
 
-        let summaries: CategorySummary[] = Categories.slice();
+        let categories: Category[] = Categories.slice();
+        let categorySummaries: CategorySummary[] = [];
 
-        summaries.forEach((category: CategorySummary) => {
-            category.Spent = Expenses.filter(function (e) {
+        categories.forEach((category: Category) => {
+            let summary: CategorySummary = new CategorySummary();
+            summary.CategoryId = category.CategoryId;
+            summary.Name = category.Name;
+            summary.Budgeted = category.Budgeted;
+            summary.BudgetPeriod = category.BudgetPeriod;
+            summary.DefaultToNeed = category.DefaultToNeed;
+
+            summary.Spent = Expenses.filter(function (e) {
                 return e.CategoryId == category.CategoryId
                     && self.isDateInPeriod(filterPeriod, filterDate, e.Date)
             }).reduce(function (acc, e) {
                 return acc + e.Cost;
             }, 0);
+
+            categorySummaries.push(summary);
         });
-        
-        return summaries;
+
+        return categorySummaries;
     }
+
 
 }

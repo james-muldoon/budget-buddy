@@ -24,7 +24,7 @@ export default class HomeScreen extends React.Component<IHomeScreenProps, any> {
 
     let views: PeriodSummaryView[] = API.getPeriodSummaryViews();
     views.forEach((view: PeriodSummaryView) => {
-      view.CategorySummaries = API.getCategorySummariesByPeriod(view.Period, new Date()); // every view is given the result of the last evaluation of this function
+      view.CategorySummaries = API.getCategorySummariesByPeriod(view.Period, new Date());
       view.TotalSpent = this.sumAmounts('Spent', view.CategorySummaries);
       view.TotalBudgeted = this.sumAmounts('Budgeted', view.CategorySummaries);
     });
